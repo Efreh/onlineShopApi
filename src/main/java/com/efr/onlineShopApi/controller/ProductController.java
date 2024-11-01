@@ -29,27 +29,18 @@ public class ProductController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getAllProducts() {
+    public ResponseEntity<String> getAllProducts() throws JsonProcessingException {
 
         List<Product> products = productService.getAllProducts();
-
-        try {
             String productsJson = objectMapper.writeValueAsString(products);
             return ResponseEntity.ok(productsJson);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error serializing product");
-        }
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> getProductById(@PathVariable Long id) {
+    public ResponseEntity<String> getProductById(@PathVariable Long id) throws JsonProcessingException {
         Product product = productService.getProductById(id).orElseThrow(() -> new ProductNotFoundException("Продукт с id " + id + " не найден"));
-        try {
             String productJson = objectMapper.writeValueAsString(product);
             return ResponseEntity.ok(productJson);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Error serializing product");
-        }
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)

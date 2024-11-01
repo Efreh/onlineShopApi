@@ -3,6 +3,7 @@ package com.efr.onlineShopApi.controller;
 import com.efr.onlineShopApi.exceptions.ProductNotFoundException;
 import com.efr.onlineShopApi.model.Product;
 import com.efr.onlineShopApi.service.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -72,7 +73,7 @@ public class ProductControllerTest {
 
         try {
             productController.getProductById(productId);
-        } catch (ProductNotFoundException e) {
+        } catch (ProductNotFoundException | JsonProcessingException e) {
             assertEquals("Продукт с id 2 не найден", e.getMessage());
         }
         verify(productService, times(1)).getProductById(productId);
